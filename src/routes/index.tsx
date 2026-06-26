@@ -1,29 +1,45 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Toaster } from "sonner";
+
+import { AIPlanner } from "@/components/AIPlanner";
+import { Destinations } from "@/components/Destinations";
+import { Experiences } from "@/components/Experiences";
+import { Footer } from "@/components/Footer";
+import { Hero } from "@/components/Hero";
+import { Navbar } from "@/components/Navbar";
+import { Packages } from "@/components/Packages";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "KashmirVale — AI-Powered Kashmir Tours & Travel" },
+      {
+        name: "description",
+        content:
+          "Plan your dream Kashmir trip with an AI concierge. Houseboats, Gulmarg skiing, Pahalgam valleys, Mughal gardens & curated luxury packages.",
+      },
+      { property: "og:title", content: "KashmirVale — AI-Powered Kashmir Tours" },
+      {
+        property: "og:description",
+        content:
+          "Snow peaks, mirror lakes and tulip valleys — let AI craft your perfect Kashmir journey.",
+      },
     ],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="overflow-x-hidden">
+      <Navbar />
+      <Hero />
+      <Destinations />
+      <Experiences />
+      <AIPlanner />
+      <Packages />
+      <Footer />
+      <Toaster position="top-center" richColors />
+    </main>
   );
 }
