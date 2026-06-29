@@ -1,5 +1,6 @@
-import { Check } from "lucide-react";
+import { Check, ShoppingBag } from "lucide-react";
 
+import { useCart } from "@/lib/cart";
 import { Reveal } from "./Reveal";
 
 const plans = [
@@ -39,6 +40,7 @@ const plans = [
 ];
 
 export function Packages() {
+  const { addItem } = useCart();
   return (
     <section id="packages" className="mx-auto max-w-7xl px-6 py-24">
       <Reveal>
@@ -86,16 +88,25 @@ export function Packages() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="#planner"
-                className={`mt-8 rounded-full px-6 py-3 text-center font-semibold transition-transform hover:scale-105 ${
+              <button
+                onClick={() => {
+                  const amount = Number(p.price.replace(/[^0-9]/g, ""));
+                  addItem({
+                    id: `trip-${p.name.toLowerCase().replace(/\s+/g, "-")}`,
+                    name: `${p.name} (${p.unit})`,
+                    price: amount,
+                  });
+                }}
+                className={`mt-8 flex items-center justify-center gap-2 rounded-full px-6 py-3 text-center font-semibold transition-transform hover:scale-105 ${
                   p.featured
                     ? "bg-gradient-to-r from-[oklch(0.82_0.13_80)] to-[oklch(0.72_0.14_55)] text-gold-foreground shadow-glow"
                     : "bg-primary text-primary-foreground"
                 }`}
               >
-                Book this trip
-              </a>
+                <ShoppingBag className="size-4" /> Add trip to cart
+              </button>
+
+
             </div>
           </Reveal>
         ))}
