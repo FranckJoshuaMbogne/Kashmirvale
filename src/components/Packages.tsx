@@ -41,6 +41,7 @@ const plans = [
 ];
 
 export function Packages() {
+  const { addItem } = useCart();
   return (
     <section id="packages" className="mx-auto max-w-7xl px-6 py-24">
       <Reveal>
