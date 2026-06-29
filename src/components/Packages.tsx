@@ -1,7 +1,6 @@
-import { ShoppingBag } from "lucide-react";
+import { Check, ShoppingBag } from "lucide-react";
 
 import { useCart } from "@/lib/cart";
-import { Check } from "lucide-react";
 import { Reveal } from "./Reveal";
 
 const plans = [
