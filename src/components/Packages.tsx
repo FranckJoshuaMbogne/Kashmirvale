@@ -106,7 +106,7 @@ export function Packages() {
               >
                 <ShoppingBag className="size-4" /> Add trip to cart
               </button>
-              <span className="sr-only">{formatINR(0)}</span>
+
 
             </div>
           </Reveal>
