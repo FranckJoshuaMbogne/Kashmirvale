@@ -63,7 +63,7 @@ export function CartDrawer() {
                           width={72}
                           height={72}
                           loading="lazy"
-                          className="size-18 shrink-0 rounded-xl object-cover"
+                          className="shrink-0 rounded-xl object-cover"
                           style={{ width: 72, height: 72 }}
                         />
                       )}
