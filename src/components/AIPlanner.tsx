@@ -97,7 +97,7 @@ export function AIPlanner() {
                 />
               </Field>
               <button
-                onClick={() => mutation.mutate()}
+                onClick={generate}
                 disabled={mutation.isPending}
                 className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[oklch(0.82_0.13_80)] to-[oklch(0.72_0.14_55)] px-6 py-4 font-semibold text-gold-foreground shadow-glow transition-transform hover:scale-[1.02] disabled:opacity-70"
               >
