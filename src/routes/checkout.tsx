@@ -24,7 +24,15 @@ export const Route = createFileRoute("/checkout")({
 
 function Checkout() {
   const { items, total, clear } = useCart();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const [status, setStatus] = useState<"idle" | "paying" | "done">("idle");
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate({ to: "/auth", search: { redirect: "/checkout" } });
+    }
+  }, [user, loading, navigate]);
 
   const shipping = items.length > 0 ? 0 : 0;
   const grandTotal = total + shipping;
@@ -32,11 +40,22 @@ function Checkout() {
   const handlePay = (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("paying");
-    // Simulated payment confirmation
-    setTimeout(() => {
-      setStatus("done");
-      clear();
-    }, 1600);
+    const form = e.currentTarget as HTMLFormElement;
+    const email = (form.querySelector('input[type="email"]') as HTMLInputElement | null)?.value ?? user?.email ?? null;
+    // Record the order (payment gateway integration configured by Super Admin)
+    supabase
+      .from("orders")
+      .insert({
+        user_id: user?.id ?? null,
+        items: items as never,
+        total: grandTotal,
+        contact_email: email,
+        status: "pending",
+      } as never)
+      .then(() => {
+        setStatus("done");
+        clear();
+      });
   };
 
   return (
