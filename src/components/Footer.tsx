@@ -1,8 +1,32 @@
-import { Mountain } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Mountain, Instagram, Facebook, Twitter, Youtube, ArrowRight } from "lucide-react";
 
+import { supabase } from "@/integrations/supabase/client";
 import { Reveal } from "./Reveal";
 
+type Social = { instagram: string; facebook: string; twitter: string; youtube: string };
+
 export function Footer() {
+  const [social, setSocial] = useState<Social>({ instagram: "", facebook: "", twitter: "", youtube: "" });
+
+  useEffect(() => {
+    supabase
+      .from("site_config")
+      .select("value")
+      .eq("key", "social_links")
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.value) setSocial(data.value as Social);
+      });
+  }, []);
+
+  const socials = [
+    { icon: Instagram, url: social.instagram },
+    { icon: Facebook, url: social.facebook },
+    { icon: Twitter, url: social.twitter },
+    { icon: Youtube, url: social.youtube },
+  ].filter((s) => s.url);
+
   return (
     <footer className="border-t border-border bg-muted/40">
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -28,9 +52,39 @@ export function Footer() {
             <Mountain className="size-5 text-gold" />
             Kashmir<span className="text-gradient-gold">Vale</span>
           </div>
+
+          {socials.length > 0 && (
+            <div className="flex items-center gap-3">
+              {socials.map(({ icon: Icon, url }, i) => (
+                <a
+                  key={i}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-border p-2 text-muted-foreground transition-colors hover:text-gold"
+                  aria-label="Social link"
+                >
+                  <Icon className="size-4" />
+                </a>
+              ))}
+            </div>
+          )}
+
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} KashmirVale. Crafted with love for the valley.
+            © {new Date().getFullYear()} KashmirVale.
           </p>
+        </div>
+
+        <div className="mt-6 flex justify-center">
+          <a
+            href="https://www.franckmbogne.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground transition-colors hover:border-gold hover:text-gold"
+          >
+            by @FJM
+            <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
+          </a>
         </div>
       </div>
     </footer>
