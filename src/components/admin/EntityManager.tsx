@@ -50,7 +50,7 @@ export function EntityManager({
   }
 
   async function update(id: string, patch: Record<string, unknown>) {
-    const { error } = await supabase.from(table).update(patch).eq("id", id);
+    const { error } = await supabase.from(table).update(patch as never).eq("id", id);
     if (error) alert(error.message);
     else load();
   }
