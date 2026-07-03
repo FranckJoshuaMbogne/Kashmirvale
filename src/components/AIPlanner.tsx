@@ -1,11 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Loader2, Sparkles, Tag, Wand2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { getRecommendation } from "@/lib/recommend.functions";
+import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
 
 import { Reveal } from "./Reveal";
 
