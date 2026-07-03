@@ -18,10 +18,20 @@ const months = ["Mar", "Apr", "May", "Jun", "Sep", "Oct", "Dec", "Jan"];
 
 export function AIPlanner() {
   const fn = useServerFn(getRecommendation);
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [travelStyle, setStyle] = useState("Romantic");
   const [duration, setDuration] = useState("5 days");
   const [month, setMonth] = useState("Apr");
   const [interests, setInterests] = useState("");
+
+  function generate() {
+    if (!user) {
+      navigate({ to: "/auth", search: { redirect: "/#planner" } });
+      return;
+    }
+    mutation.mutate();
+  }
 
   const mutation = useMutation({
     mutationFn: () =>
