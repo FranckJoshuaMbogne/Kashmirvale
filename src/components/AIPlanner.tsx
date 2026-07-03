@@ -1,11 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Loader2, Sparkles, Tag, Wand2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { getRecommendation } from "@/lib/recommend.functions";
+import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
 
 import { Reveal } from "./Reveal";
 
@@ -15,10 +18,20 @@ const months = ["Mar", "Apr", "May", "Jun", "Sep", "Oct", "Dec", "Jan"];
 
 export function AIPlanner() {
   const fn = useServerFn(getRecommendation);
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [travelStyle, setStyle] = useState("Romantic");
   const [duration, setDuration] = useState("5 days");
   const [month, setMonth] = useState("Apr");
   const [interests, setInterests] = useState("");
+
+  function generate() {
+    if (!user) {
+      navigate({ to: "/auth", search: { redirect: "/#planner" } });
+      return;
+    }
+    mutation.mutate();
+  }
 
   const mutation = useMutation({
     mutationFn: () =>
@@ -35,6 +48,14 @@ export function AIPlanner() {
       if (msg.includes("429")) toast.error("Too many requests — try again shortly.");
       else if (msg.includes("402")) toast.error("AI credits exhausted. Please add credits.");
       else toast.error("Couldn't generate your itinerary. Please retry.");
+    },
+    onSuccess: async () => {
+      if (!user) return;
+      await supabase.from("trip_requests").insert({
+        user_id: user.id,
+        details: { travelStyle, duration, month, interests },
+      } as never);
+      toast.success("Itinerary generated & saved to your dashboard!");
     },
   });
 
@@ -76,7 +97,7 @@ export function AIPlanner() {
                 />
               </Field>
               <button
-                onClick={() => mutation.mutate()}
+                onClick={generate}
                 disabled={mutation.isPending}
                 className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[oklch(0.82_0.13_80)] to-[oklch(0.72_0.14_55)] px-6 py-4 font-semibold text-gold-foreground shadow-glow transition-transform hover:scale-[1.02] disabled:opacity-70"
               >

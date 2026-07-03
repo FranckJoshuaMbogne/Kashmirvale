@@ -1,9 +1,11 @@
-import { Link } from "@tanstack/react-router";
-import { Mountain, ShoppingBag } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Mountain, ShoppingBag, Moon, Sun, User } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { useState } from "react";
 
 import { useCart } from "@/lib/cart";
+import { useTheme } from "@/lib/theme";
+import { useAuth } from "@/lib/auth";
 
 const links = [
   { label: "Destinations", href: "/#destinations" },
@@ -17,8 +19,16 @@ export function Navbar({ solid = false }: { solid?: boolean }) {
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 40));
   const { count, openCart } = useCart();
+  const { theme, toggle } = useTheme();
+  const { user, isAdmin } = useAuth();
+  const navigate = useNavigate();
 
   const opaque = solid || scrolled;
+
+  function planTrip() {
+    if (!user) navigate({ to: "/auth", search: { redirect: "/#planner" } });
+    else navigate({ to: "/", hash: "planner" });
+  }
 
   return (
     <motion.header
@@ -62,14 +72,21 @@ export function Navbar({ solid = false }: { solid?: boolean }) {
             Shop
           </Link>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggle}
+            aria-label="Toggle theme"
+            className={`rounded-full p-2.5 transition-colors ${
+              opaque ? "text-foreground hover:bg-muted" : "text-white hover:bg-white/10"
+            }`}
+          >
+            {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
+          </button>
           <button
             onClick={openCart}
             aria-label="Open cart"
             className={`relative rounded-full p-2.5 transition-colors ${
-              opaque
-                ? "text-foreground hover:bg-muted"
-                : "text-white hover:bg-white/10"
+              opaque ? "text-foreground hover:bg-muted" : "text-white hover:bg-white/10"
             }`}
           >
             <ShoppingBag className="size-5" />
@@ -79,12 +96,21 @@ export function Navbar({ solid = false }: { solid?: boolean }) {
               </span>
             )}
           </button>
-          <a
-            href="/#planner"
+          <Link
+            to={user ? (isAdmin ? "/admin" : "/dashboard") : "/auth"}
+            aria-label="Account"
+            className={`rounded-full p-2.5 transition-colors ${
+              opaque ? "text-foreground hover:bg-muted" : "text-white hover:bg-white/10"
+            }`}
+          >
+            <User className="size-5" />
+          </Link>
+          <button
+            onClick={planTrip}
             className="rounded-full bg-gradient-to-r from-[oklch(0.82_0.13_80)] to-[oklch(0.72_0.14_55)] px-5 py-2.5 text-sm font-semibold text-gold-foreground shadow-glow transition-transform hover:scale-105"
           >
             Plan my trip
-          </a>
+          </button>
         </div>
       </nav>
     </motion.header>
