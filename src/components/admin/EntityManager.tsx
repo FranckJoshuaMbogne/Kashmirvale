@@ -42,7 +42,7 @@ export function EntityManager({
       if (f.type === "boolean") v = Boolean(v);
       payload[f.key] = v ?? (f.type === "number" ? 0 : f.type === "boolean" ? false : "");
     }
-    const { error } = await supabase.from(table).insert(payload);
+    const { error } = await supabase.from(table).insert(payload as never);
     setBusy(false);
     if (error) return alert(error.message);
     setDraft({});
