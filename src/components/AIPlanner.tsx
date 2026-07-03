@@ -49,6 +49,14 @@ export function AIPlanner() {
       else if (msg.includes("402")) toast.error("AI credits exhausted. Please add credits.");
       else toast.error("Couldn't generate your itinerary. Please retry.");
     },
+    onSuccess: async () => {
+      if (!user) return;
+      await supabase.from("trip_requests").insert({
+        user_id: user.id,
+        details: { travelStyle, duration, month, interests },
+      } as never);
+      toast.success("Itinerary generated & saved to your dashboard!");
+    },
   });
 
   const rec = mutation.data;
