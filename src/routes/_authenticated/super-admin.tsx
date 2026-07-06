@@ -128,6 +128,36 @@ function SuperAdmin() {
             </div>
             <button onClick={() => saveConfig("social_links", social)} className="mt-4 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground">Save</button>
           </section>
+
+          <ThemeEditor />
+
+          <SiteSectionsEditor />
+
+          <EntityManager
+            table="promotions"
+            title="Promotions"
+            fields={[
+              { key: "title", label: "Title" },
+              { key: "description", label: "Description" },
+              { key: "image_url", label: "Image URL" },
+              { key: "badge", label: "Badge" },
+              { key: "sort_order", label: "Order", type: "number" },
+              { key: "active", label: "Active", type: "boolean" },
+            ]}
+          />
+
+          <EntityManager
+            table="discount_codes"
+            title="Discount Codes"
+            fields={[
+              { key: "code", label: "Code" },
+              { key: "description", label: "Description" },
+              { key: "percent_off", label: "% off", type: "number" },
+              { key: "amount_off", label: "₹ off", type: "number" },
+              { key: "max_uses", label: "Max uses", type: "number" },
+              { key: "active", label: "Active", type: "boolean" },
+            ]}
+          />
         </div>
       </div>
     </main>
