@@ -5,6 +5,7 @@ import { LogOut, Users, MapPin, ShoppingBag, Plane, CheckCircle } from "lucide-r
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { EntityManager } from "@/components/admin/EntityManager";
+import { Chat } from "@/components/Chat";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Admin Dashboard — KashmirVale" }, { name: "robots", content: "noindex" }] }),
