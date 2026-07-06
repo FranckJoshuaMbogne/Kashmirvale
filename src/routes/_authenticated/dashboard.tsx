@@ -66,6 +66,9 @@ function Dashboard() {
             <p className="text-muted-foreground">{profile?.email}</p>
           </div>
           <div className="flex gap-2">
+            <Link to="/chat" className="inline-flex items-center gap-1 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">
+              <MessagesSquare className="size-4" /> Messages
+            </Link>
             {isAdmin && (
               <Link to="/admin" className="inline-flex items-center gap-1 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-secondary-foreground">
                 <Shield className="size-4" /> Admin
