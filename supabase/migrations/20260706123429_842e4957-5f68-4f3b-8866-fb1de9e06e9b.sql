@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.bump_chat_thread() FROM PUBLIC, anon, authenticated;
