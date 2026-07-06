@@ -43,19 +43,49 @@ function Checkout() {
     const form = e.currentTarget as HTMLFormElement;
     const email = (form.querySelector('input[type="email"]') as HTMLInputElement | null)?.value ?? user?.email ?? null;
     // Record the order (payment gateway integration configured by Super Admin)
-    supabase
-      .from("orders")
-      .insert({
-        user_id: user?.id ?? null,
-        items: items as never,
-        total: grandTotal,
-        contact_email: email,
-        status: "pending",
-      } as never)
-      .then(() => {
-        setStatus("done");
-        clear();
-      });
+    (async () => {
+      const { data: order } = await supabase
+        .from("orders")
+        .insert({
+          user_id: user?.id ?? null,
+          items: items as never,
+          total: grandTotal,
+          contact_email: email,
+          status: "pending",
+        } as never)
+        .select()
+        .single();
+
+      if (order) {
+        // Star-schema fact rows: link each purchased product to the client
+        const uuidRe = /^[0-9a-f-]{36}$/i;
+        const [{ data: shopIds }, { data: destIds }] = await Promise.all([
+          supabase.from("shop_items").select("id"),
+          supabase.from("destinations").select("id"),
+        ]);
+        const shopSet = new Set((shopIds ?? []).map((r) => r.id));
+        const destSet = new Set((destIds ?? []).map((r) => r.id));
+        const rows = items.map((it) => {
+          const isShop = uuidRe.test(it.id) && shopSet.has(it.id);
+          const isDest = uuidRe.test(it.id) && destSet.has(it.id);
+          return {
+            order_id: (order as { id: string }).id,
+            user_id: user?.id ?? null,
+            product_type: isDest ? "destination" : "shop_item",
+            shop_item_id: isShop ? it.id : null,
+            destination_id: isDest ? it.id : null,
+            name: it.name,
+            unit_price: it.price,
+            quantity: it.qty,
+            line_total: it.price * it.qty,
+          };
+        });
+        if (rows.length) await supabase.from("order_items").insert(rows as never);
+      }
+
+      setStatus("done");
+      clear();
+    })();
   };
 
   return (
