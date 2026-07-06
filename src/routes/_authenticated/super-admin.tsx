@@ -5,6 +5,7 @@ import { LogOut, ShieldCheck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, type AppRole } from "@/lib/auth";
 import { EntityManager } from "@/components/admin/EntityManager";
+import { SiteSectionsEditor, ThemeEditor } from "@/components/admin/SiteSectionsEditor";
 
 export const Route = createFileRoute("/_authenticated/super-admin")({
   head: () => ({ meta: [{ title: "Super Admin — KashmirVale" }, { name: "robots", content: "noindex" }] }),
