@@ -107,7 +107,7 @@ export function Navbar({ solid = false }: { solid?: boolean }) {
           </Link>
           <button
             onClick={planTrip}
-            className="rounded-full bg-gradient-to-r from-[oklch(0.82_0.13_80)] to-[oklch(0.72_0.14_55)] px-5 py-2.5 text-sm font-semibold text-gold-foreground shadow-glow transition-transform hover:scale-105"
+            className="hidden md:inline-flex rounded-full bg-gradient-to-r from-[oklch(0.82_0.13_80)] to-[oklch(0.72_0.14_55)] px-5 py-2.5 text-sm font-semibold text-gold-foreground shadow-glow transition-transform hover:scale-105"
           >
             Plan my trip
           </button>
