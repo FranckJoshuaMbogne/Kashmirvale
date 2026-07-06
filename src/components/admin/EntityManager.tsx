@@ -16,7 +16,7 @@ export function EntityManager({
   title,
   fields,
 }: {
-  table: "destinations" | "shop_items" | "payment_options";
+  table: "destinations" | "shop_items" | "payment_options" | "promotions" | "discount_codes";
   title: string;
   fields: FieldDef[];
 }) {

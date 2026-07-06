@@ -5,6 +5,7 @@ import { LogOut, Users, MapPin, ShoppingBag, Plane, CheckCircle } from "lucide-r
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { EntityManager } from "@/components/admin/EntityManager";
+import { Chat } from "@/components/Chat";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Admin Dashboard — KashmirVale" }, { name: "robots", content: "noindex" }] }),
@@ -150,6 +151,24 @@ function AdminDashboard() {
               ))}
             </ul>
           </section>
+
+          <section className="rounded-2xl border border-border bg-card p-6">
+            <h2 className="mb-4 text-lg font-bold text-foreground">Customer Messages</h2>
+            <Chat mode="admin" />
+          </section>
+
+          <EntityManager
+            table="discount_codes"
+            title="Discount Codes"
+            fields={[
+              { key: "code", label: "Code" },
+              { key: "description", label: "Description" },
+              { key: "percent_off", label: "% off", type: "number" },
+              { key: "amount_off", label: "₹ off", type: "number" },
+              { key: "max_uses", label: "Max uses", type: "number" },
+              { key: "active", label: "Active", type: "boolean" },
+            ]}
+          />
         </div>
       </div>
     </main>
