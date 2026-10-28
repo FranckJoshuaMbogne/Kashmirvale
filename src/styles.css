@@ -34,8 +34,8 @@
   --color-gold: var(--gold);
   --color-gold-foreground: var(--gold-foreground);
 
-  --font-display: "Syne", sans-serif;
-  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-display: "Nunito Sans", sans-serif;
+  --font-sans: "Nunito Sans", sans-serif;
 
   --shadow-soft: 0 4px 24px -8px color-mix(in oklab, var(--primary) 18%, transparent);
   --shadow-elegant: 0 24px 60px -20px color-mix(in oklab, var(--primary) 35%, transparent);
@@ -44,6 +44,7 @@
 
 :root {
   --radius: 1rem;
+  --font-italic: "Playfair Display", serif;
 
   --background: oklch(0.99 0.006 95);
   --foreground: oklch(0.22 0.03 200);
@@ -116,7 +117,11 @@
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+  }
+
+  .italic, em, i {
+    font-family: var(--font-italic);
+    letter-spacing: 0.01em;
   }
 }
 

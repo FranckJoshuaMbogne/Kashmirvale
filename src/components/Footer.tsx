@@ -77,7 +77,7 @@ export function Footer() {
 
         <div className="mt-6 flex justify-center">
           <a
-            href="https://www.franckmbogne.com"
+            href="https://franckpros.web.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground transition-colors hover:border-gold hover:text-gold"
