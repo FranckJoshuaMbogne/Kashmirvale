@@ -1,6 +1,8 @@
 import {
   Crown,
   Flame,
+  Camera,
+  Mountain,
   Ship,
   Snowflake,
   Sparkles,
@@ -11,7 +13,12 @@ import {
 
 import { formatINR } from "@/lib/products";
 import { useCart } from "@/lib/cart";
+import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
+import { useState } from "react";
+
+const experienceFilters = ["All experiences", "Adventure", "Food & craft", "Slow travel"] as const;
+type ExperienceFilter = (typeof experienceFilters)[number];
 
 const experiences = [
   {
@@ -22,6 +29,7 @@ const experiences = [
     price: 12500,
     unit: "/ night",
     badge: "Bestseller",
+    category: "Slow travel",
   },
   {
     id: "exp-gondola",
@@ -31,6 +39,7 @@ const experiences = [
     price: 6800,
     unit: "/ person",
     badge: "Adventure",
+    category: "Adventure",
   },
   {
     id: "exp-shikara-dinner",
@@ -40,6 +49,7 @@ const experiences = [
     price: 4200,
     unit: "/ couple",
     badge: "Romantic",
+    category: "Food & craft",
   },
   {
     id: "exp-heli",
@@ -49,6 +59,7 @@ const experiences = [
     price: 18900,
     unit: "/ flight",
     badge: "Exclusive",
+    category: "Adventure",
   },
   {
     id: "exp-wazwan",
@@ -58,6 +69,7 @@ const experiences = [
     price: 5900,
     unit: "/ person",
     badge: "Foodie",
+    category: "Food & craft",
   },
   {
     id: "exp-snowmobile",
@@ -67,6 +79,7 @@ const experiences = [
     price: 3500,
     unit: "/ ride",
     badge: "Thrill",
+    category: "Adventure",
   },
   {
     id: "exp-photowalk",
@@ -76,6 +89,7 @@ const experiences = [
     price: 2800,
     unit: " / walk",
     badge: "Keepsake",
+    category: "Slow travel",
   },
   {
     id: "exp-craft-tour",
@@ -85,11 +99,56 @@ const experiences = [
     price: 2400,
     unit: "/ person",
     badge: "Culture",
+    category: "Food & craft",
+  },
+  {
+    id: "exp-tarsar-trek",
+    icon: Mountain,
+    name: "Alpine Lakes Trek",
+    desc: "A guided multi-day trek through high meadows and glacial lake country, subject to seasonal access.",
+    price: 6200,
+    unit: "/ person",
+    badge: "Trekking",
+    category: "Adventure",
+  },
+  {
+    id: "exp-kashmiri-cooking",
+    icon: UtensilsCrossed,
+    name: "Kashmiri Home Cooking",
+    desc: "Prepare a small selection of regional dishes with a local host, then share the meal together.",
+    price: 3200,
+    unit: "/ person",
+    badge: "Local table",
+    category: "Food & craft",
+  },
+  {
+    id: "exp-artisan-workshop",
+    icon: Wrench,
+    name: "Papier-Mâché Workshop",
+    desc: "Meet an artisan and try the careful painting techniques behind Kashmir's decorated crafts.",
+    price: 2600,
+    unit: "/ person",
+    badge: "Hands-on",
+    category: "Food & craft",
+  },
+  {
+    id: "exp-old-srinagar-photo",
+    icon: Camera,
+    name: "Old Srinagar Photo Walk",
+    desc: "A relaxed guided walk through historic lanes, timber architecture and riverside scenes.",
+    price: 2800,
+    unit: "/ walk",
+    badge: "City walk",
+    category: "Slow travel",
   },
 ];
 
 export function Experiences() {
   const { addItem } = useCart();
+  const [activeFilter, setActiveFilter] = useState<ExperienceFilter>("All experiences");
+  const visibleExperiences = activeFilter === "All experiences"
+    ? experiences
+    : experiences.filter((experience) => experience.category === activeFilter);
 
   return (
     <section id="experiences" className="bg-muted/50 py-24">
@@ -102,8 +161,23 @@ export function Experiences() {
             Premium experiences to elevate your trip
           </h2>
         </Reveal>
+        <div role="group" aria-label="Filter experiences" className="mt-8 flex gap-2 overflow-x-auto pb-2">
+          {experienceFilters.map((filter) => (
+            <Button
+              key={filter}
+              type="button"
+              size="sm"
+              variant={activeFilter === filter ? "default" : "outline"}
+              aria-pressed={activeFilter === filter}
+              onClick={() => setActiveFilter(filter)}
+              className="shrink-0 rounded-full"
+            >
+              {filter}
+            </Button>
+          ))}
+        </div>
         <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {experiences.map((e, i) => (
+          {visibleExperiences.map((e, i) => (
             <Reveal key={e.id} delay={i % 4}>
               <div className="group flex h-full flex-col rounded-3xl border border-border bg-card p-7 shadow-soft transition-all duration-300 hover:-translate-y-2 hover:shadow-elegant">
                 <div className="flex items-center justify-between">
@@ -123,15 +197,16 @@ export function Experiences() {
                       {e.unit}
                     </span>
                   </p>
-                  <button
+                  <Button
                     onClick={() =>
                       addItem({ id: e.id, name: e.name, price: e.price })
                     }
                     aria-label={`Add ${e.name} to cart`}
-                    className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105 active:scale-95"
+                    size="sm"
+                    className="rounded-full px-4 font-semibold"
                   >
                     Add
-                  </button>
+                  </Button>
                 </div>
               </div>
             </Reveal>
