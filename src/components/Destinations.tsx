@@ -76,8 +76,8 @@ function TiltCard({ d, index }: { d: (typeof destinations)[number]; index: numbe
         className="group relative flex min-h-[25rem] flex-col justify-end overflow-hidden rounded-xl shadow-elegant"
       >
         <img src={d.img} alt={`${d.name}, Kashmir`} loading="lazy" width={1280} height={960} className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/45 to-transparent" />
-        <div style={{ transform: "translateZ(28px)" }} className="relative z-10 p-5 text-white">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/45 to-transparent" />
+        <div className="relative z-10 p-5 text-white">
           <span className="mb-2 inline-flex rounded-full bg-background/20 px-3 py-1 text-xs font-medium backdrop-blur-md">{d.tag}</span>
           <h3 className="text-2xl font-bold">{d.name}</h3>
           <p className="mt-2 min-h-10 text-sm text-white/85">{d.desc}</p>
