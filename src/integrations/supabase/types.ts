@@ -160,6 +160,42 @@ export type Database = {
         }
         Relationships: []
       }
+      enquiries: {
+        Row: {
+          created_at: string
+          destination: string | null
+          email: string | null
+          id: string
+          message: string | null
+          name: string
+          phone: string
+          status: string
+          travel_month: string | null
+        }
+        Insert: {
+          created_at?: string
+          destination?: string | null
+          email?: string | null
+          id?: string
+          message?: string | null
+          name: string
+          phone: string
+          status?: string
+          travel_month?: string | null
+        }
+        Update: {
+          created_at?: string
+          destination?: string | null
+          email?: string | null
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string
+          status?: string
+          travel_month?: string | null
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           created_at: string
@@ -347,6 +383,39 @@ export type Database = {
           sort_order?: number
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          approved: boolean
+          author_name: string
+          comment: string
+          created_at: string
+          destination: string | null
+          id: string
+          rating: number
+          user_id: string
+        }
+        Insert: {
+          approved?: boolean
+          author_name: string
+          comment: string
+          created_at?: string
+          destination?: string | null
+          id?: string
+          rating: number
+          user_id: string
+        }
+        Update: {
+          approved?: boolean
+          author_name?: string
+          comment?: string
+          created_at?: string
+          destination?: string | null
+          id?: string
+          rating?: number
+          user_id?: string
         }
         Relationships: []
       }
