@@ -106,6 +106,12 @@ export type SectionStyles = {
   reviews_title: string;
   faq_title: string;
   enquiry_title: string;
+  primary_color: string;
+  accent_color: string;
+  gold_color: string;
+  gradient_start: string;
+  gradient_end: string;
+  hero_gradient_opacity: number;
 };
 
 export const defaultSectionStyles: SectionStyles = {
@@ -121,4 +127,10 @@ export const defaultSectionStyles: SectionStyles = {
   reviews_title: "What travellers say",
   faq_title: "Questions, answered",
   enquiry_title: "Get a free trip quote",
+  primary_color: "oklch(0.46 0.09 195)",
+  accent_color: "oklch(0.93 0.04 160)",
+  gold_color: "oklch(0.78 0.13 75)",
+  gradient_start: "oklch(0.28 0.06 210)",
+  gradient_end: "oklch(0.4 0.09 195)",
+  hero_gradient_opacity: 55,
 };

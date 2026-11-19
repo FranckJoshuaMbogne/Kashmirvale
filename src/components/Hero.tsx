@@ -3,8 +3,10 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 
 import heroImg from "@/assets/hero-kashmir.jpg";
+import { useSectionStyles } from "@/lib/site-content";
 
 export function Hero() {
+  const { data: content } = useSectionStyles();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -28,8 +30,7 @@ export function Hero() {
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "linear-gradient(180deg, oklch(0.18 0.04 210 / 0.45) 0%, transparent 35%, oklch(0.16 0.04 210 / 0.75) 100%)",
+            background: `linear-gradient(180deg, oklch(0.18 0.04 210 / ${Math.max(0, Math.min(100, content.hero_gradient_opacity)) / 100}) 0%, transparent 35%, oklch(0.16 0.04 210 / ${Math.max(0, Math.min(100, content.hero_overlay_opacity)) / 100}) 100%)`,
           }}
         />
       </motion.div>
@@ -45,7 +46,7 @@ export function Hero() {
           className="mb-6 flex w-fit items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-md"
         >
           <Star className="size-4 fill-gold text-gold" />
-          Rated #1 Himalayan escape — 12,000+ happy travellers
+          {content.hero_badge}
         </motion.div>
 
         <motion.h1
@@ -54,9 +55,9 @@ export function Hero() {
           transition={{ delay: 0.45, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-4xl text-5xl font-bold leading-[1.05] text-white sm:text-6xl md:text-7xl"
         >
-          Paradise on Earth,
+          {content.hero_title}
           <br />
-          <span className="text-gradient-gold">Crafted for You</span>
+          <span className="text-gradient-gold">{content.hero_highlight}</span>
         </motion.h1>
 
         <motion.p
@@ -65,8 +66,7 @@ export function Hero() {
           transition={{ delay: 0.65, duration: 0.7 }}
           className="mt-6 max-w-xl text-lg text-white/85"
         >
-          Snow-draped peaks, mirror-still lakes and tulip valleys. Let our AI
-          concierge design your perfect Kashmir journey in seconds.
+          {content.hero_subtitle}
         </motion.p>
 
         <motion.div

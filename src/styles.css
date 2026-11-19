@@ -78,7 +78,7 @@
 
   --gradient-hero: linear-gradient(180deg, transparent 0%, color-mix(in oklab, oklch(0.18 0.04 210) 78%, transparent) 100%);
   --gradient-gold: linear-gradient(135deg, oklch(0.82 0.13 80), oklch(0.72 0.14 55));
-  --gradient-deep: linear-gradient(150deg, oklch(0.28 0.06 210), oklch(0.4 0.09 195));
+  --gradient-deep: linear-gradient(150deg, var(--gradient-start, oklch(0.28 0.06 210)), var(--gradient-end, oklch(0.4 0.09 195)));
 }
 
 .dark {

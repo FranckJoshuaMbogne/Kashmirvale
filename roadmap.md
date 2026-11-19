@@ -1,0 +1,6 @@
+- [ ] Add shareable Kashmir destination detail pages.
+- [ ] Add traveller reviews, FAQs, and a quick trip enquiry with WhatsApp contact.
+- [ ] Give admins controls for destination and experience content, prices, and section styling.
+- [ ] Add enquiry and review moderation to the admin area.
+- [ ] Verify the homepage, destination detail pages, enquiry, reviews, and admin-facing changes.
+- [ ] Commit the completed work.
