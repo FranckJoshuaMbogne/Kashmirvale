@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { getRecommendation } from "@/lib/recommend.functions";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionStyles } from "@/lib/site-content";
 
 import { Reveal } from "./Reveal";
 
@@ -24,6 +25,7 @@ export function AIPlanner() {
   const [duration, setDuration] = useState("5 days");
   const [month, setMonth] = useState("Apr");
   const [interests, setInterests] = useState("");
+  const { data: sectionStyles } = useSectionStyles();
 
   function generate() {
     if (!user) {
@@ -62,17 +64,17 @@ export function AIPlanner() {
   const rec = mutation.data;
 
   return (
-    <section id="planner" className="bg-gradient-deep py-24 text-white">
+    <section id="planner" style={{ background: "linear-gradient(150deg, color-mix(in oklab, var(--gradient-start) var(--planner-gradient-opacity), transparent), color-mix(in oklab, var(--gradient-end) var(--planner-gradient-opacity), transparent))" }} className="py-24 text-white">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <div className="mb-3 flex items-center gap-2 text-gold">
             <Sparkles className="size-5" />
             <p className="font-display text-sm font-semibold uppercase tracking-widest">
-              AI Travel Concierge
+              {sectionStyles.planner_subtitle}
             </p>
           </div>
           <h2 className="max-w-3xl text-4xl font-bold sm:text-5xl">
-            Tell us your vibe — get a tailor-made Kashmir plan
+            {sectionStyles.planner_title}
           </h2>
         </Reveal>
 

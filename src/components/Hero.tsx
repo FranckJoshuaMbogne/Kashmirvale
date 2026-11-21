@@ -3,7 +3,9 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 
 import heroImg from "@/assets/hero-kashmir.jpg";
+import { resolveImage } from "@/lib/catalog";
 import { useSectionStyles } from "@/lib/site-content";
+import { Button } from "@/components/ui/button";
 
 export function Hero() {
   const { data: content } = useSectionStyles();
@@ -20,7 +22,7 @@ export function Hero() {
     <section ref={ref} id="top" className="relative h-screen overflow-hidden">
       <motion.div style={{ y, scale }} className="absolute inset-0">
         <img
-          src={heroImg}
+          src={resolveImage(content.hero_image) || heroImg}
           alt="Shikara boats drifting across a misty Dal Lake at sunrise in Kashmir"
           width={1920}
           height={1280}
@@ -75,19 +77,21 @@ export function Hero() {
           transition={{ delay: 0.8, duration: 0.7 }}
           className="mt-9 flex flex-wrap items-center gap-4"
         >
+          <Button asChild size="lg" className="group h-auto rounded-full bg-gradient-to-r from-[oklch(0.82_0.13_80)] to-[oklch(0.72_0.14_55)] px-7 py-4 font-semibold text-gold-foreground shadow-glow transition-transform hover:scale-105">
           <a
             href="#planner"
-            className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-[oklch(0.82_0.13_80)] to-[oklch(0.72_0.14_55)] px-7 py-4 font-semibold text-gold-foreground shadow-glow transition-transform hover:scale-105"
           >
             Build my AI itinerary
             <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
           </a>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="h-auto rounded-full border-white/40 bg-transparent px-7 py-4 font-semibold text-white backdrop-blur-md hover:bg-white/10 hover:text-white">
           <a
             href="#destinations"
-            className="rounded-full border border-white/40 px-7 py-4 font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/10"
           >
             Explore destinations
           </a>
+          </Button>
         </motion.div>
       </motion.div>
 

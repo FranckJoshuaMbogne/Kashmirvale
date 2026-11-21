@@ -3,10 +3,13 @@ import { Mountain, Instagram, Facebook, Twitter, Youtube, ArrowRight } from "luc
 
 import { supabase } from "@/integrations/supabase/client";
 import { Reveal } from "./Reveal";
+import { useSectionStyles } from "@/lib/site-content";
+import { Button } from "@/components/ui/button";
 
 type Social = { instagram: string; facebook: string; twitter: string; youtube: string };
 
 export function Footer() {
+  const { data: sectionStyles } = useSectionStyles();
   const [social, setSocial] = useState<Social>({ instagram: "", facebook: "", twitter: "", youtube: "" });
 
   useEffect(() => {
@@ -31,18 +34,14 @@ export function Footer() {
     <footer className="border-t border-border bg-muted/40">
       <div className="mx-auto max-w-7xl px-6 py-16">
         <Reveal>
-          <div className="rounded-3xl bg-gradient-deep p-10 text-center text-white sm:p-16">
-            <h2 className="mx-auto max-w-2xl text-3xl font-bold sm:text-4xl">
-              Your Himalayan adventure is one click away
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-white/80">
-              Join thousands who discovered Kashmir the smarter way.
-            </p>
+          <div style={{ background: "linear-gradient(150deg, color-mix(in oklab, var(--gradient-start) var(--cta-gradient-opacity), transparent), color-mix(in oklab, var(--gradient-end) var(--cta-gradient-opacity), transparent))" }} className="rounded-xl p-10 text-center text-white sm:p-16">
+            <h2 className="mx-auto max-w-2xl text-3xl font-bold sm:text-4xl">{sectionStyles.footer_cta_title}</h2>
+            <p className="mx-auto mt-3 max-w-xl text-white/80">{sectionStyles.footer_cta_subtitle}</p>
             <a
               href="#planner"
               className="mt-8 inline-block rounded-full bg-gradient-to-r from-[oklch(0.82_0.13_80)] to-[oklch(0.72_0.14_55)] px-8 py-4 font-semibold text-gold-foreground shadow-glow transition-transform hover:scale-105"
             >
-              Plan my trip with AI
+              {sectionStyles.footer_cta_button}
             </a>
           </div>
         </Reveal>

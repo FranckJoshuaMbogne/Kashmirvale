@@ -2,45 +2,14 @@ import { Check, ShoppingBag } from "lucide-react";
 
 import { useCart } from "@/lib/cart";
 import { Reveal } from "./Reveal";
-
-const plans = [
-  {
-    name: "Valley Explorer",
-    price: "₹24,999",
-    unit: "per person",
-    features: ["4 nights stay", "Srinagar + Gulmarg", "Daily breakfast", "Airport transfers"],
-    featured: false,
-  },
-  {
-    name: "Signature Kashmir",
-    price: "₹42,999",
-    unit: "per person",
-    features: [
-      "6 nights stay",
-      "Houseboat + Pahalgam + Gulmarg",
-      "Shikara sunset cruise",
-      "Private guide & SUV",
-      "All meals (Wazwan night)",
-    ],
-    featured: true,
-  },
-  {
-    name: "Royal Himalaya",
-    price: "₹78,999",
-    unit: "per person",
-    features: [
-      "8 nights luxury stay",
-      "Heli tour included",
-      "Gondola Phase-2 pass",
-      "Personal concierge",
-      "Spa & fine dining",
-    ],
-    featured: false,
-  },
-];
+import { usePackages } from "@/lib/site-content";
+import { formatINR } from "@/lib/products";
+import { useSectionStyles } from "@/lib/site-content";
 
 export function Packages() {
   const { addItem } = useCart();
+  const { data: plans } = usePackages();
+  const { data: sectionStyles } = useSectionStyles();
   return (
     <section id="packages" className="mx-auto max-w-7xl px-6 py-24">
       <Reveal>
@@ -48,9 +17,7 @@ export function Packages() {
           <p className="font-display text-sm font-semibold uppercase tracking-widest text-primary">
             Curated packages
           </p>
-          <h2 className="mt-3 text-4xl font-bold sm:text-5xl">
-            Choose your Kashmir escape
-          </h2>
+          <h2 className="mt-3 text-4xl font-bold sm:text-5xl">{sectionStyles.packages_title}</h2>
         </div>
       </Reveal>
 
@@ -58,7 +25,8 @@ export function Packages() {
         {plans.map((p, i) => (
           <Reveal key={p.name} delay={i}>
             <div
-              className={`relative flex h-full flex-col rounded-3xl border p-8 transition-all duration-300 hover:-translate-y-2 ${
+              style={p.featured ? { background: "linear-gradient(150deg, color-mix(in oklab, var(--gradient-start) var(--packages-gradient-opacity), transparent), color-mix(in oklab, var(--gradient-end) var(--packages-gradient-opacity), transparent))" } : undefined}
+              className={`relative flex h-full flex-col rounded-xl border p-8 transition-all duration-300 hover:-translate-y-2 ${
                 p.featured
                   ? "border-gold bg-gradient-deep text-white shadow-elegant"
                   : "border-border bg-card shadow-soft"
@@ -71,7 +39,7 @@ export function Packages() {
               )}
               <h3 className="text-xl font-bold">{p.name}</h3>
               <p className="mt-4 font-display text-4xl font-bold">
-                {p.price}
+                {formatINR(p.price)}
                 <span
                   className={`block text-sm font-normal ${p.featured ? "text-white/70" : "text-muted-foreground"}`}
                 >
@@ -90,11 +58,10 @@ export function Packages() {
               </ul>
               <button
                 onClick={() => {
-                  const amount = Number(p.price.replace(/[^0-9]/g, ""));
                   addItem({
-                    id: `trip-${p.name.toLowerCase().replace(/\s+/g, "-")}`,
+                    id: `trip-${p.id}`,
                     name: `${p.name} (${p.unit})`,
-                    price: amount,
+                    price: p.price,
                   });
                 }}
                 className={`mt-8 flex items-center justify-center gap-2 rounded-full px-6 py-3 text-center font-semibold transition-transform hover:scale-105 ${

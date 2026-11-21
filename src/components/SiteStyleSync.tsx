@@ -16,8 +16,16 @@ export function SiteStyleSync() {
     if (data.gradient_start && colorPattern.test(data.gradient_start)) root.style.setProperty("--gradient-start", data.gradient_start);
     if (data.gradient_end && colorPattern.test(data.gradient_end)) root.style.setProperty("--gradient-end", data.gradient_end);
     root.style.setProperty("--hero-overlay-opacity", String(Math.max(0, Math.min(100, data.hero_overlay_opacity)) / 100));
-    root.style.setProperty("--card-overlay-opacity", String(Math.max(0, Math.min(100, data.card_overlay_opacity)) / 100));
+    root.style.setProperty("--card-overlay-opacity", `${Math.max(0, Math.min(100, data.card_overlay_opacity))}%`);
     root.style.setProperty("--hero-gradient-opacity", String(Math.max(0, Math.min(100, data.hero_gradient_opacity)) / 100));
+    root.style.setProperty("--planner-gradient-opacity", `${Math.max(0, Math.min(100, data.planner_gradient_opacity))}%`);
+    root.style.setProperty("--packages-gradient-opacity", `${Math.max(0, Math.min(100, data.packages_gradient_opacity))}%`);
+    root.style.setProperty("--cta-gradient-opacity", `${Math.max(0, Math.min(100, data.cta_gradient_opacity))}%`);
+    const safeFonts = new Set(["Nunito Sans", "Playfair Display", "Arial", "Georgia", "system-ui"]);
+    const headingFont = safeFonts.has(data.heading_font) ? data.heading_font : "Nunito Sans";
+    const bodyFont = safeFonts.has(data.body_font) ? data.body_font : "Nunito Sans";
+    root.style.setProperty("--font-display", `"${headingFont}", sans-serif`);
+    root.style.setProperty("--font-sans", `"${bodyFont}", sans-serif`);
   }, [data]);
   return null;
 }

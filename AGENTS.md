@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+<!-- Project architecture: Store visitor-editable catalogues, FAQs, contact settings, and section presentation settings as validated JSON values in `public.site_config`, with public readers and authenticated admin editors, so content stays manageable without replacing the existing page structure. -->

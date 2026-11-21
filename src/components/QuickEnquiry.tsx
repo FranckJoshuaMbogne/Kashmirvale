@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { defaultDestinations } from "@/lib/catalog";
-import { useContact, useSectionStyles } from "@/lib/site-content";
+import { useContact, useDestinations, useSectionStyles } from "@/lib/site-content";
 import { Reveal } from "./Reveal";
 
 const enquirySchema = z.object({
@@ -22,11 +22,13 @@ const enquirySchema = z.object({
 export function QuickEnquiry() {
   const { data: contact } = useContact();
   const { data: styles } = useSectionStyles();
+  const { data: destinations } = useDestinations();
   const [busy, setBusy] = useState(false);
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
+    const targetForm = e.currentTarget;
+    const form = new FormData(targetForm);
     const parsed = enquirySchema.safeParse({
       name: form.get("name"), phone: form.get("phone"), email: form.get("email"),
       destination: form.get("destination"), travel_month: form.get("travel_month"), message: form.get("message"),
@@ -40,7 +42,7 @@ export function QuickEnquiry() {
     } as never);
     setBusy(false);
     if (error) { toast.error("We couldn't send your enquiry. Please try again."); return; }
-    e.currentTarget.reset();
+    targetForm.reset();
     toast.success("Your trip enquiry is received.");
   }
 
@@ -63,7 +65,7 @@ export function QuickEnquiry() {
         <label className="text-sm font-medium">Email (optional) <Input name="email" type="email" maxLength={255} className="mt-1" /></label>
         <label className="text-sm font-medium">Place of interest
           <select name="destination" defaultValue="" className="mt-1 block h-10 w-full rounded-md border border-input bg-background px-3">
-            <option value="">Not sure yet</option>{defaultDestinations.map((d) => <option key={d.slug} value={d.name}>{d.name}</option>)}
+            <option value="">Not sure yet</option>{destinations.length ? destinations.map((d) => <option key={d.slug} value={d.name}>{d.name}</option>) : defaultDestinations.map((d) => <option key={d.slug} value={d.name}>{d.name}</option>)}
           </select>
         </label>
         <label className="text-sm font-medium">Travel month <Input name="travel_month" maxLength={30} placeholder="e.g. September" className="mt-1" /></label>

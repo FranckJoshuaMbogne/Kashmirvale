@@ -21,7 +21,8 @@ export const assetImages: Record<string, string> = {
 export function resolveImage(src?: string | null) {
   if (!src) return hero;
   if (src.startsWith("asset:")) return assetImages[src.slice(6)] ?? hero;
-  return src;
+  if (src.startsWith("https://") || src.startsWith("/")) return src;
+  return hero;
 }
 
 export type Destination = {
@@ -98,14 +99,27 @@ export type SectionStyles = {
   hero_title: string;
   hero_highlight: string;
   hero_subtitle: string;
+  hero_image: string;
   hero_overlay_opacity: number; // 0–100
+  hero_gradient_opacity: number;
   card_overlay_opacity: number; // 0–100
+  planner_gradient_opacity: number;
+  packages_gradient_opacity: number;
+  cta_gradient_opacity: number;
   destinations_title: string;
   destinations_subtitle: string;
   experiences_title: string;
   reviews_title: string;
   faq_title: string;
   enquiry_title: string;
+  packages_title: string;
+  planner_title: string;
+  planner_subtitle: string;
+  footer_cta_title: string;
+  footer_cta_subtitle: string;
+  footer_cta_button: string;
+  heading_font: string;
+  body_font: string;
   primary_color: string;
   accent_color: string;
   gold_color: string;
@@ -119,18 +133,31 @@ export const defaultSectionStyles: SectionStyles = {
   hero_title: "Paradise on Earth,",
   hero_highlight: "Crafted for You",
   hero_subtitle: "Snow-draped peaks, mirror-still lakes and tulip valleys. Let our AI concierge design your perfect Kashmir journey in seconds.",
+  hero_image: "asset:hero",
   hero_overlay_opacity: 45,
+  hero_gradient_opacity: 55,
   card_overlay_opacity: 85,
+  planner_gradient_opacity: 90,
+  packages_gradient_opacity: 90,
+  cta_gradient_opacity: 100,
   destinations_title: "Find your kind of Kashmir",
   destinations_subtitle: "From a quiet lake morning to high mountain valleys, find a place that suits your pace.",
   experiences_title: "Premium experiences to elevate your trip",
   reviews_title: "What travellers say",
   faq_title: "Questions, answered",
   enquiry_title: "Get a free trip quote",
+  packages_title: "Choose your Kashmir escape",
+  planner_title: "Tell us your vibe — get a tailor-made Kashmir plan",
+  planner_subtitle: "AI Travel Concierge",
+  footer_cta_title: "Your Himalayan adventure is one click away",
+  footer_cta_subtitle: "Join travellers who discovered Kashmir the smarter way.",
+  footer_cta_button: "Plan my trip with AI",
   primary_color: "oklch(0.46 0.09 195)",
   accent_color: "oklch(0.93 0.04 160)",
   gold_color: "oklch(0.78 0.13 75)",
   gradient_start: "oklch(0.28 0.06 210)",
   gradient_end: "oklch(0.4 0.09 195)",
   hero_gradient_opacity: 55,
+  heading_font: "Nunito Sans",
+  body_font: "Nunito Sans",
 };
